@@ -666,7 +666,8 @@ extension WebCoordinator: WKUIDelegate {
         guard navigationAction.targetFrame == nil else { return nil }
         let popup = WKWebView(frame: webView.bounds, configuration: configuration)
         popup.navigationDelegate = self; popup.uiDelegate = self; popup.allowsBackForwardNavigationGestures = true
-        webView.addSubview(popup)
+        guard let parentView = webView.superview else { return nil }
+        parentView.addSubview(popup)
         popup.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             popup.topAnchor.constraint(equalTo: webView.topAnchor),
@@ -674,17 +675,49 @@ extension WebCoordinator: WKUIDelegate {
             popup.leadingAnchor.constraint(equalTo: webView.leadingAnchor),
             popup.trailingAnchor.constraint(equalTo: webView.trailingAnchor)
         ])
-        let gesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(closePopup(_:)))
-        gesture.edges = .left; popup.addGestureRecognizer(gesture)
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePopupPan(_:)))
+        gesture.delegate = self
+        popup.scrollView.panGestureRecognizer.require(toFail: gesture)
+        popup.addGestureRecognizer(gesture)
         popups.append(popup)
         if let url = navigationAction.request.url, url.absoluteString != "about:blank" { popup.load(navigationAction.request) }
         return popup
     }
-    
-    @objc private func closePopup(_ recognizer: UIScreenEdgePanGestureRecognizer) {
-        guard recognizer.state == .ended else { return }
-        if let last = popups.last { last.removeFromSuperview(); popups.removeLast() } else { webView?.goBack() }
+
+    @objc private func handlePopupPan(_ recognizer: UIPanGestureRecognizer) {
+        guard let popupView = recognizer.view else { return }
+        let translation = recognizer.translation(in: popupView)
+        let velocity = recognizer.velocity(in: popupView)
+        switch recognizer.state {
+        case .changed:
+            if translation.x > 0 { popupView.transform = CGAffineTransform(translationX: translation.x, y: 0) }
+        case .ended, .cancelled:
+            if translation.x > popupView.bounds.width * 0.4 || velocity.x > 800 {
+                UIView.animate(withDuration: 0.25, animations: {
+                    popupView.transform = CGAffineTransform(translationX: popupView.bounds.width, y: 0)
+                }) { [weak self] _ in
+                    if let last = self?.popups.last { last.removeFromSuperview(); self?.popups.removeLast() }
+                }
+            } else {
+                UIView.animate(withDuration: 0.2) { popupView.transform = .identity }
+            }
+        default: break
+        }
     }
-    
+
+    func webViewDidClose(_ webView: WKWebView) {
+        if let index = popups.firstIndex(of: webView) { webView.removeFromSuperview(); popups.remove(at: index) }
+    }
+
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) { completionHandler() }
+}
+
+extension WebCoordinator: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool { true }
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer, let view = pan.view else { return false }
+        let velocity = pan.velocity(in: view)
+        let translation = pan.translation(in: view)
+        return translation.x > 0 && abs(velocity.x) > abs(velocity.y)
+    }
 }
