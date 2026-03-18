@@ -6,11 +6,52 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8F370B212F6AD0BA0040467C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8F370B202F6AD0BA0040467C /* FirebaseAuth */; };
+		8F370B232F6AD0BA0040467C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8F370B222F6AD0BA0040467C /* FirebaseDatabase */; };
+		8F370B252F6AD0BA0040467C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F370B242F6AD0BA0040467C /* FirebaseMessaging */; };
+		8F370B282F6AD0C40040467C /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 8F370B272F6AD0C40040467C /* AppsFlyerLib */; };
+		8F370B9F2F6AD7C90040467C /* MetrixaGridNotifictionExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8F370B982F6AD7C90040467C /* MetrixaGridNotifictionExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8F370BA72F6AD7E20040467C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F370BA62F6AD7E20040467C /* FirebaseMessaging */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8F370B9D2F6AD7C90040467C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F8516212F62F052002F485B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F370B972F6AD7C90040467C;
+			remoteInfo = MetrixaGridNotifictionExt;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8F370BA42F6AD7C90040467C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8F370B9F2F6AD7C90040467C /* MetrixaGridNotifictionExt.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8F370B982F6AD7C90040467C /* MetrixaGridNotifictionExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MetrixaGridNotifictionExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8516292F62F052002F485B /* MetrixaGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetrixaGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8F370BA32F6AD7C90040467C /* Exceptions for "MetrixaGridNotifictionExt" folder in "MetrixaGridNotifictionExt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8F370B972F6AD7C90040467C /* MetrixaGridNotifictionExt */;
+		};
 		8F8517032F631F68002F485B /* Exceptions for "MetrixaGrid" folder in "MetrixaGrid" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -21,6 +62,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		8F370B992F6AD7C90040467C /* MetrixaGridNotifictionExt */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8F370BA32F6AD7C90040467C /* Exceptions for "MetrixaGridNotifictionExt" folder in "MetrixaGridNotifictionExt" target */,
+			);
+			path = MetrixaGridNotifictionExt;
+			sourceTree = "<group>";
+		};
 		8F85162B2F62F052002F485B /* MetrixaGrid */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,20 +81,41 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8F370B952F6AD7C90040467C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F370BA72F6AD7E20040467C /* FirebaseMessaging in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F8516262F62F052002F485B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F370B252F6AD0BA0040467C /* FirebaseMessaging in Frameworks */,
+				8F370B282F6AD0C40040467C /* AppsFlyerLib in Frameworks */,
+				8F370B232F6AD0BA0040467C /* FirebaseDatabase in Frameworks */,
+				8F370B212F6AD0BA0040467C /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F370BA52F6AD7E20040467C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8F8516202F62F052002F485B = {
 			isa = PBXGroup;
 			children = (
 				8F85162B2F62F052002F485B /* MetrixaGrid */,
+				8F370B992F6AD7C90040467C /* MetrixaGridNotifictionExt */,
+				8F370BA52F6AD7E20040467C /* Frameworks */,
 				8F85162A2F62F052002F485B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				8F8516292F62F052002F485B /* MetrixaGrid.app */,
+				8F370B982F6AD7C90040467C /* MetrixaGridNotifictionExt.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +132,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8F370B972F6AD7C90040467C /* MetrixaGridNotifictionExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F370BA02F6AD7C90040467C /* Build configuration list for PBXNativeTarget "MetrixaGridNotifictionExt" */;
+			buildPhases = (
+				8F370B942F6AD7C90040467C /* Sources */,
+				8F370B952F6AD7C90040467C /* Frameworks */,
+				8F370B962F6AD7C90040467C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8F370B992F6AD7C90040467C /* MetrixaGridNotifictionExt */,
+			);
+			name = MetrixaGridNotifictionExt;
+			packageProductDependencies = (
+				8F370BA62F6AD7E20040467C /* FirebaseMessaging */,
+			);
+			productName = MetrixaGridNotifictionExt;
+			productReference = 8F370B982F6AD7C90040467C /* MetrixaGridNotifictionExt.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		8F8516282F62F052002F485B /* MetrixaGrid */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F8516352F62F054002F485B /* Build configuration list for PBXNativeTarget "MetrixaGrid" */;
@@ -68,16 +162,22 @@
 				8F8516252F62F052002F485B /* Sources */,
 				8F8516262F62F052002F485B /* Frameworks */,
 				8F8516272F62F052002F485B /* Resources */,
+				8F370BA42F6AD7C90040467C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8F370B9E2F6AD7C90040467C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8F85162B2F62F052002F485B /* MetrixaGrid */,
 			);
 			name = MetrixaGrid;
 			packageProductDependencies = (
+				8F370B202F6AD0BA0040467C /* FirebaseAuth */,
+				8F370B222F6AD0BA0040467C /* FirebaseDatabase */,
+				8F370B242F6AD0BA0040467C /* FirebaseMessaging */,
+				8F370B272F6AD0C40040467C /* AppsFlyerLib */,
 			);
 			productName = MetrixaGrid;
 			productReference = 8F8516292F62F052002F485B /* MetrixaGrid.app */;
@@ -93,6 +193,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					8F370B972F6AD7C90040467C = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					8F8516282F62F052002F485B = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -107,17 +210,29 @@
 			);
 			mainGroup = 8F8516202F62F052002F485B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8F370B1F2F6AD0BA0040467C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8F370B262F6AD0C40040467C /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8F85162A2F62F052002F485B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8F8516282F62F052002F485B /* MetrixaGrid */,
+				8F370B972F6AD7C90040467C /* MetrixaGridNotifictionExt */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8F370B962F6AD7C90040467C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F8516272F62F052002F485B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +243,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8F370B942F6AD7C90040467C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F8516252F62F052002F485B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +259,76 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8F370B9E2F6AD7C90040467C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F370B972F6AD7C90040467C /* MetrixaGridNotifictionExt */;
+			targetProxy = 8F370B9D2F6AD7C90040467C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		8F370BA12F6AD7C90040467C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MetrixaGridNotifictionExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MetrixaGridNotifictionExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridmetrix.MetrixaGrid.MetrixaGridNotifictionExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8F370BA22F6AD7C90040467C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MetrixaGridNotifictionExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MetrixaGridNotifictionExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gridmetrix.MetrixaGrid.MetrixaGridNotifictionExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		8F8516332F62F054002F485B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -265,6 +456,7 @@
 				INFOPLIST_FILE = MetrixaGrid/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Metrixa Grid";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use this feature in application";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Metrixa Grid may use limited device-related data to support grid-based calculations, maintain performance consistency, and improve feature accuracy. This information is processed solely for internal diagnostics and ongoing enhancements. It is not used to track users across other apps or websites and is not shared with third parties for advertising purposes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -275,7 +467,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
@@ -306,6 +498,7 @@
 				INFOPLIST_FILE = MetrixaGrid/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Metrixa Grid";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use this feature in application";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Metrixa Grid may use limited device-related data to support grid-based calculations, maintain performance consistency, and improve feature accuracy. This information is processed solely for internal diagnostics and ongoing enhancements. It is not used to track users across other apps or websites and is not shared with third parties for advertising purposes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -316,7 +509,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
@@ -337,6 +530,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8F370BA02F6AD7C90040467C /* Build configuration list for PBXNativeTarget "MetrixaGridNotifictionExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F370BA12F6AD7C90040467C /* Debug */,
+				8F370BA22F6AD7C90040467C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8F8516242F62F052002F485B /* Build configuration list for PBXProject "MetrixaGrid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -356,6 +558,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8F370B1F2F6AD0BA0040467C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
+		8F370B262F6AD0C40040467C /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.17.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8F370B202F6AD0BA0040467C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F370B1F2F6AD0BA0040467C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		8F370B222F6AD0BA0040467C /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F370B1F2F6AD0BA0040467C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		8F370B242F6AD0BA0040467C /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F370B1F2F6AD0BA0040467C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		8F370B272F6AD0C40040467C /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F370B262F6AD0C40040467C /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+		8F370BA62F6AD7E20040467C /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F370B1F2F6AD0BA0040467C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8F8516212F62F052002F485B /* Project object */;
 }

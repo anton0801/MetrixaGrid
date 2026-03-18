@@ -142,7 +142,10 @@ struct MeasurementsView: View {
             }
             .navigationBarHidden(true)
         }
-        .sheet(isPresented: $showAdd) { AddMeasurementView() }
+        .sheet(isPresented: $showAdd) {
+            AddMeasurementView()
+                .environmentObject(store)
+        }
         .sheet(item: $selectedMeasurement) { m in
             MeasurementDetailView(measurement: m)
         }
@@ -238,8 +241,16 @@ struct MeasurementRow: View {
 // MARK: - Add Measurement
 struct AddMeasurementView: View {
     @EnvironmentObject var store: AppStore
+    @EnvironmentObject var templateStore: TemplateStore
     @Environment(\.dismiss) var dismiss
-    
+
+    // Template step (Feature 2)
+    @State private var showTemplateStep = true
+    @State private var selectedTemplate: MeasurementTemplate? = nil
+    /// Set to the chosen template to trigger the TemplateFormView sheet.
+    /// Using .sheet(item:) guarantees the template is non-nil when the sheet renders.
+    @State private var activeTemplateForForm: MeasurementTemplate? = nil
+
     @State private var title = ""
     @State private var valueString = ""
     @State private var unit: MeasurementUnit = .cm
@@ -251,25 +262,63 @@ struct AddMeasurementView: View {
     @State private var photoData: Data? = nil
     @State private var showValidation = false
     @State private var savedConfirmation = false
-    
+
     var isValid: Bool { !title.isEmpty && Double(valueString) != nil }
-    
+
+    // MARK: - Body
+
     var body: some View {
+        if showTemplateStep {
+            templatePickerView
+        } else {
+            manualFormView
+        }
+    }
+
+    // MARK: - Step 0: Template picker
+
+    @ViewBuilder
+    private var templatePickerView: some View {
+        TemplatesGridView(
+            templateStore: templateStore,
+            selectedTemplate: $selectedTemplate,
+            onSkip: {
+                withAnimation(.springy) { showTemplateStep = false }
+            },
+            onUseTemplate: {
+                guard let t = selectedTemplate else { return }
+                if t.isCustom || t.fields.isEmpty {
+                    // "Custom" or blank template → go straight to manual form
+                    withAnimation(.springy) { showTemplateStep = false }
+                } else {
+                    // Set the item first, then SwiftUI presents the sheet with it guaranteed non-nil
+                    activeTemplateForForm = t
+                }
+            }
+        )
+        .sheet(item: $activeTemplateForForm, onDismiss: { dismiss() }) { template in
+            TemplateFormView(template: template, projectId: selectedProjectId)
+                .environmentObject(store)
+        }
+    }
+
+    // MARK: - Step 1: Manual form
+
+    @ViewBuilder
+    private var manualFormView: some View {
         NavigationView {
             ZStack {
                 Color.bgPrimary.ignoresSafeArea()
-                
+
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 20) {
-                        // Title
                         FormSection(title: "Measurement Details") {
                             VStack(spacing: 12) {
                                 MXTextField(placeholder: "Title (e.g. Kitchen Wall)", text: $title, icon: "textformat")
-                                
+
                                 HStack(spacing: 12) {
                                     MXTextField(placeholder: "Value", text: $valueString, icon: "number", keyboardType: .decimalPad)
-                                    
-                                    // Unit picker
+
                                     Menu {
                                         ForEach(MeasurementUnit.allCases, id: \.self) { u in
                                             Button(u.symbol) { unit = u }
@@ -291,7 +340,7 @@ struct AddMeasurementView: View {
                                     }
                                     .frame(width: 80)
                                 }
-                                
+
                                 if showValidation && (title.isEmpty || Double(valueString) == nil) {
                                     Text("Please fill in title and a valid numeric value.")
                                         .font(AppFont.standard(12))
@@ -300,8 +349,7 @@ struct AddMeasurementView: View {
                                 }
                             }
                         }
-                        
-                        // Category
+
                         FormSection(title: "Category") {
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 85))], spacing: 8) {
                                 ForEach(MeasurementCategory.allCases, id: \.self) { cat in
@@ -325,8 +373,7 @@ struct AddMeasurementView: View {
                                 }
                             }
                         }
-                        
-                        // Project
+
                         FormSection(title: "Project (optional)") {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 8) {
@@ -341,8 +388,7 @@ struct AddMeasurementView: View {
                                 }
                             }
                         }
-                        
-                        // Note
+
                         FormSection(title: "Note (optional)") {
                             ZStack(alignment: .topLeading) {
                                 if note.isEmpty {
@@ -364,8 +410,7 @@ struct AddMeasurementView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.06), lineWidth: 1))
                         }
-                        
-                        // Favorite toggle
+
                         FormSection(title: "Options") {
                             Toggle(isOn: $isFavorite) {
                                 HStack(spacing: 10) {
@@ -381,8 +426,7 @@ struct AddMeasurementView: View {
                             .background(Color.bgCard)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
-                        
-                        // Save
+
                         Button {
                             if isValid {
                                 let m = Measurement(
@@ -423,7 +467,7 @@ struct AddMeasurementView: View {
                         .buttonStyle(PrimaryButtonStyle(gradient: savedConfirmation ? LinearGradient(colors: [.resultGreen, .resultGreen.opacity(0.8)], startPoint: .leading, endPoint: .trailing) : .cyanMint))
                         .padding(.horizontal, 16)
                         .animation(.springy, value: savedConfirmation)
-                        
+
                         Spacer(minLength: 60)
                     }
                     .padding(.top, 8)

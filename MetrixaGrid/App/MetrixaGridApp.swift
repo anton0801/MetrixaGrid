@@ -4,12 +4,16 @@ import SwiftUI
 struct MetrixaGridApp: App {
     @StateObject private var store = AppStore()
     @StateObject private var themeManager = ThemeManager()
+    @StateObject private var templateStore = TemplateStore()
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     var body: some Scene {
         WindowGroup {
-            RootView()
+            SplashView()
                 .environmentObject(store)
                 .environmentObject(themeManager)
+                .environmentObject(templateStore)
                 .preferredColorScheme(themeManager.colorScheme)
         }
     }
@@ -23,11 +27,12 @@ struct RootView: View {
     
     var body: some View {
         ZStack {
-            if showSplash {
-                SplashView()
-                    .transition(.opacity)
-                    .zIndex(10)
-            } else if !hasCompletedOnboarding {
+//            if showSplash {
+//                SplashView()
+//                    .transition(.opacity)
+//                    .zIndex(10)
+//            } else
+            if !hasCompletedOnboarding {
                 OnboardingView()
                     .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
             } else if !store.isAuthenticated {

@@ -183,3 +183,8 @@ extension View {
         modifier(GlowModifier(color: color, radius: radius))
     }
 }
+
+struct MetrixaConfig {
+    static let appID = "6760652129"
+    static let devKey = "5r4zzDULBAaitdypZLsrC9"
+}

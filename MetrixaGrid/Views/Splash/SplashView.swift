@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct SplashView: View {
     @State private var gridOpacity: Double = 0
@@ -6,108 +7,156 @@ struct SplashView: View {
     @State private var logoOpacity: Double = 0
     @State private var subtitleOpacity: Double = 0
     @State private var pulseScale: CGFloat = 1.0
+    @StateObject private var store = Store()
+    @State private var streams = Set<AnyCancellable>()
     @State private var particles: [SplashParticle] = SplashParticle.generate(count: 20)
     
     var body: some View {
-        ZStack {
-            // Background
-            Color.bgPrimary.ignoresSafeArea()
-            
-            // Gradient radial glow
-            RadialGradient(
-                gradient: Gradient(colors: [Color.accentCyan.opacity(0.15), Color.clear]),
-                center: .center,
-                startRadius: 0,
-                endRadius: 300
-            )
-            .ignoresSafeArea()
-            
-            // Animated grid
-            GeometryReader { geo in
-                GridBackground(opacity: gridOpacity)
-                    .frame(width: geo.size.width, height: geo.size.height)
-            }
-            
-            // Floating measurement particles
-            ForEach(particles) { particle in
-                ParticleView(particle: particle)
-            }
-            
-            // Center content
-            VStack(spacing: 12) {
-                Spacer()
+        NavigationView {
+            ZStack {
+                // Background
+                Color.bgPrimary.ignoresSafeArea()
                 
-                // Logo container
-                ZStack {
-                    // Pulse rings
-                    ForEach(0..<3) { i in
-                        Circle()
-                            .stroke(Color.accentCyan.opacity(0.15 - Double(i) * 0.04), lineWidth: 1)
-                            .frame(width: CGFloat(90 + i * 30), height: CGFloat(90 + i * 30))
-                            .scaleEffect(pulseScale + CGFloat(i) * 0.05)
-                    }
+                GeometryReader { geometry in
+                    Image("splash_screen_bg")
+                        .resizable().scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .ignoresSafeArea()
+                }
+                .ignoresSafeArea().opacity(0.2)
+                
+                // Gradient radial glow
+                RadialGradient(
+                    gradient: Gradient(colors: [Color.accentCyan.opacity(0.15), Color.clear]),
+                    center: .center,
+                    startRadius: 0,
+                    endRadius: 300
+                )
+                .ignoresSafeArea()
+                
+                // Animated grid
+                GeometryReader { geo in
+                    GridBackground(opacity: gridOpacity)
+                        .frame(width: geo.size.width, height: geo.size.height)
+                }
+                
+                // Floating measurement particles
+                ForEach(particles) { particle in
+                    ParticleView(particle: particle)
+                }
+                
+                // Center content
+                VStack(spacing: 12) {
+                    Spacer()
                     
-                    // Logo background
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(
-                            LinearGradient(colors: [Color.bgCard, Color(hex: "#263448")],
-                                         startPoint: .topLeading, endPoint: .bottomTrailing)
-                        )
-                        .frame(width: 80, height: 80)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24)
-                                .stroke(LinearGradient.cyanMint.opacity(0.5), lineWidth: 1.5)
-                        )
-                    
-                    // Logo icon
-                    VStack(spacing: 2) {
-                        Image(systemName: "ruler.fill")
-                            .font(.system(size: 28, weight: .bold))
-                            .foregroundStyle(LinearGradient.cyanMint)
+                    // Logo container
+                    ZStack {
+                        // Pulse rings
+                        ForEach(0..<3) { i in
+                            Circle()
+                                .stroke(Color.accentCyan.opacity(0.15 - Double(i) * 0.04), lineWidth: 1)
+                                .frame(width: CGFloat(90 + i * 30), height: CGFloat(90 + i * 30))
+                                .scaleEffect(pulseScale + CGFloat(i) * 0.05)
+                        }
                         
-                        Text("MG")
-                            .font(AppFont.mono(10, weight: .bold))
-                            .foregroundColor(.accentCyan)
-                    }
-                }
-                .scaleEffect(logoScale)
-                .opacity(logoOpacity)
-                
-                // App name
-                VStack(spacing: 4) {
-                    HStack(spacing: 2) {
-                        Text("Metrixa")
-                            .font(AppFont.rounded(38, weight: .bold))
-                            .foregroundStyle(LinearGradient.cyanMint)
-                            .glow(color: .accentCyan, radius: 6)
+                        // Logo background
+                        RoundedRectangle(cornerRadius: 24)
+                            .fill(
+                                LinearGradient(colors: [Color.bgCard, Color(hex: "#263448")],
+                                             startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
+                            .frame(width: 80, height: 80)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 24)
+                                    .stroke(LinearGradient.cyanMint.opacity(0.5), lineWidth: 1.5)
+                            )
                         
-                        Text(" Grid")
-                            .font(AppFont.rounded(38, weight: .light))
-                            .foregroundColor(.white)
+                        // Logo icon
+                        VStack(spacing: 2) {
+                            Image(systemName: "ruler.fill")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundStyle(LinearGradient.cyanMint)
+                            
+                            Text("MG")
+                                .font(AppFont.mono(10, weight: .bold))
+                                .foregroundColor(.accentCyan)
+                        }
                     }
+                    .scaleEffect(logoScale)
+                    .opacity(logoOpacity)
                     
-                    Text("Smart measurement notes.")
-                        .font(AppFont.mono(13))
-                        .foregroundColor(.textSecondary)
-                        .tracking(2)
-                }
-                .opacity(logoOpacity)
-                
-                Spacer()
-                
-                // Bottom indicator
-                HStack(spacing: 6) {
-                    ForEach(0..<3) { i in
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.accentCyan.opacity(0.4 + Double(i) * 0.2))
-                            .frame(width: i == 1 ? 20 : 6, height: 4)
+                    // App name
+                    VStack(spacing: 4) {
+                        HStack(spacing: 2) {
+                            Text("Metrixa")
+                                .font(AppFont.rounded(38, weight: .bold))
+                                .foregroundStyle(LinearGradient.cyanMint)
+                                .glow(color: .accentCyan, radius: 6)
+                            
+                            Text(" Grid")
+                                .font(AppFont.rounded(38, weight: .light))
+                                .foregroundColor(.white)
+                        }
+                        
+                        Text("Smart measurement Building.")
+                            .font(AppFont.mono(13))
+                            .foregroundColor(.textSecondary)
+                            .tracking(2)
+                        
+                        ProgressView()
+                            .tint(Color.accentCyan)
                     }
+                    .opacity(logoOpacity)
+                    
+                    Spacer()
+                    
+                    // Bottom indicator
+                    HStack(spacing: 6) {
+                        ForEach(0..<3) { i in
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(Color.accentCyan.opacity(0.4 + Double(i) * 0.2))
+                                .frame(width: i == 1 ? 20 : 6, height: 4)
+                        }
+                    }
+                    .opacity(subtitleOpacity)
+                    .padding(.bottom, 50)
+                    
+                    NavigationLink(
+                        destination: MetrixaWebView().navigationBarHidden(true),
+                        isActive: $store.state.ui.navigateToWeb
+                    ) { EmptyView() }
+
+                    NavigationLink(
+                        destination: RootView().navigationBarBackButtonHidden(true),
+                        isActive: $store.state.ui.navigateToMain
+                    ) { EmptyView() }
                 }
-                .opacity(subtitleOpacity)
-                .padding(.bottom, 50)
+            }
+            .onAppear {
+                startAnimations()
+                store.dispatch(.initialize)
+                setupStreams()
+            }
+            .fullScreenCover(isPresented: $store.state.ui.showPermissionPrompt) {
+                MetrixaNotificationView(store: store)
+            }
+            .fullScreenCover(isPresented: $store.state.ui.showOfflineView) {
+                UnavailableView()
             }
         }
-        .onAppear { startAnimations() }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    private func setupStreams() {
+        NotificationCenter.default.publisher(for: Notification.Name("ConversionDataReceived"))
+            .compactMap { $0.userInfo?["conversionData"] as? [String: Any] }
+            .sink { store.dispatch(.trackingReceived($0)) }
+            .store(in: &streams)
+        
+        NotificationCenter.default.publisher(for: Notification.Name("deeplink_values"))
+            .compactMap { $0.userInfo?["deeplinksData"] as? [String: Any] }
+            .sink { store.dispatch(.navigationReceived($0)) }
+            .store(in: &streams)
     }
     
     private func startAnimations() {
@@ -212,3 +261,4 @@ struct ParticleView: View {
         }
     }
 }
+

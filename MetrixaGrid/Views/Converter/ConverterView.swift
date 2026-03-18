@@ -1,5 +1,25 @@
 import SwiftUI
 
+
+
+struct UnavailableView: View {
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Image(geometry.size.width > geometry.size.height ? "issues_w_wifi_bg_land" : "issues_w_wifi_bg")
+                    .resizable().scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .ignoresSafeArea()
+                
+                Image("issues_w_wifi_a")
+                    .resizable()
+                    .frame(width: 250, height: 220)
+            }
+        }
+        .ignoresSafeArea()
+    }
+}
+
 struct ConverterView: View {
     @EnvironmentObject var store: AppStore
     @State private var selectedCategory: UnitCategory = .length
